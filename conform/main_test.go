@@ -4,8 +4,25 @@ import (
 	"testing"
 )
 
+func TestArgParsing(t *testing.T) {
+	args := getMockArgs()
+	flags, err := parseArgs(args)
+
+	if err != nil {
+		t.Fatal("Error while parsing command flags")
+	}
+
+	if flags.format != "ini" {
+		t.Fatal("Unexpected value for format flag")
+	}
+
+	if flags.prefix != "COUCHDB_" {
+		t.Fatal("Unexpected value for prefix flag")
+	}
+}
+
 func TestEnvParsing(t *testing.T) {
-	env := getMockEnvCouchDB()
+	env := getMockEnv()
 	prefix := "COUCHDB_"
 
 	envMap := parseEnv(env, prefix)
@@ -21,7 +38,7 @@ func TestEnvParsing(t *testing.T) {
 }
 
 func TestOutputsIniFormat(t *testing.T) {
-	input, want := initIni()
+	input, want := setup()
 
 	output := conform(input)
 
@@ -30,10 +47,10 @@ func TestOutputsIniFormat(t *testing.T) {
 	}
 }
 
-func initIni() (conformInput, string) {
+func setup() (conformInput, string) {
 	input := conformInput{
-		getMockEnvCouchDB(),
-		getMockArgsIni(),
+		environment: getMockEnv(),
+		arguments:   getMockArgs(),
 	}
 
 	want := `[httpd]
@@ -42,14 +59,14 @@ func initIni() (conformInput, string) {
 	return input, want
 }
 
-func getMockEnvCouchDB() []string {
+func getMockEnv() []string {
 	env := []string{
 		"COUCHDB_HTTPD{}BIND_ADDRESS=0.0.0.0",
 	}
 	return env
 }
 
-func getMockArgsIni() []string {
+func getMockArgs() []string {
 	args := []string{
 		"-p",
 		"COUCHDB_",
