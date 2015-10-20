@@ -1,39 +1,24 @@
-package main
+package conform
 
 import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 )
 
-type conformInput struct {
-	arguments, environment []string
+type Input struct {
+	Arguments, Environment []string
 }
 
-func main() {
-	input := conformInput{
-		arguments:   os.Args[1:],
-		environment: os.Environ(),
-	}
-	output, err := conform(input)
-
-	if err != nil {
-		log.Println(err)
-	} else {
-		log.Println(output)
-	}
-}
-
-func conform(input conformInput) (string, error) {
-	flags, err := parseArgs(input.arguments)
+func Run(input Input) (string, error) {
+	flags, err := parseArgs(input.Arguments)
 
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
-	envMap := parseEnv(input.environment, flags.prefix)
+	envMap := parseEnv(input.Environment, flags.prefix)
 
 	switch {
 	case flags.format == "json":
