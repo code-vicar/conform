@@ -3,7 +3,6 @@ package conform
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"strings"
 )
 
@@ -15,7 +14,7 @@ func Run(input Input) (string, error) {
 	flags, err := parseArgs(input.Arguments)
 
 	if err != nil {
-		log.Fatal(err.Error())
+		return "", err
 	}
 
 	envMap := parseEnv(input.Environment, flags.prefix)
