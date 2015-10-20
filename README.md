@@ -1,17 +1,23 @@
 # Conform Manual
+
 ## Command
+
 conform
+
 ## Flags
 * -o Output file path
 * -p Environment variable prefix
 * -f Output file format
+
 ## Examples
 
 ### Simple object
+
 ENV
 * COUCHDB_HTTPD__BIND_ADDRESS=0.0.0.0
 
 #### ini
+
 Execute
 ````
 $ conform -p "COUCHDB_" -f "ini"
