@@ -9,7 +9,7 @@ conform
 
 ### Simple object
 ENV
-* COUCHDB_HTTPD{}BIND_ADDRESS 0.0.0.0
+* COUCHDB_HTTPD__BIND_ADDRESS=0.0.0.0
 
 #### ini
 Execute
@@ -19,7 +19,7 @@ $ conform -p "COUCHDB_" -f "ini"
 Output:
 ````
 [httpd]
-bind_address 0.0.0.0
+bind_address=0.0.0.0
 ````
 
 #### yml
@@ -43,16 +43,16 @@ $ conform -p "COUCHDB_" -f "json"
 Output:
 ````
 {
-    httpd: {
-        bind_address: "0.0.0.0"
+    "httpd": {
+        "bind_address": "0.0.0.0"
     }
 }
 ````
 
 ### Arrays
 ENV
-* COUCHDB_TEST{}ARR[] one
-* COUCHDB_TEST{}ARR[] two
+* COUCHDB_TEST__ARR___=one
+* COUCHDB_TEST__ARR___=two
 
 #### ini
 Execute
@@ -62,7 +62,8 @@ $ conform -p "COUCHDB_" -f "ini"
 Output:
 ````
 [test]
-arr "[one, two]"
+arr[]=one
+arr[]=two
 ````
 
 #### yml
@@ -86,8 +87,8 @@ $ conform -p "COUCHDB_" -f "json"
 Output:
 ````
 {
-    test: {
-       arr: [
+    "test": {
+       "arr": [
         "one",
         "two"
        ]
